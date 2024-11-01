@@ -5,7 +5,7 @@
 ### Description
 
 Requests to `/` and `/message.html` endpoints returns crafted html pages.
-Requets to `/info` endpoint returns rendered template with information from data.json.
+Requets to `/read` endpoint returns rendered template with information from data.json.
 
 ### Runnig the server
 
@@ -23,7 +23,7 @@ docker build . -t olexandrs-webserver
 docker run \
     --name olexandrs-webserver \
     --rm \
-    -p 8000:8000 \
+    -p 3000:3000 \
     -v ./storage:/app/storage \
     olexandrs-webserver 
 ```

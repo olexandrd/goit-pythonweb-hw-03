@@ -80,7 +80,7 @@ class HttpHandler(BaseHTTPRequestHandler):
         pr_url = urllib.parse.urlparse(self.path)
         if pr_url.path == "/":
             self.send_html_file("index.html")
-        elif pr_url.path == "/info":
+        elif pr_url.path == "/read":
             self.template.refresh_data(self.storage.get_data())
             self.render_template()
         elif pr_url.path == "/message":
@@ -117,7 +117,7 @@ class HttpHandler(BaseHTTPRequestHandler):
 
 
 def run(server_class=HTTPServer, handler_class=HttpHandler):
-    server_address = ("", 8000)
+    server_address = ("", 3000)
     http = server_class(server_address, handler_class)
     try:
         logging.info("Server started")
