@@ -40,7 +40,17 @@
       </nav>
     </header>
     <div class="container mt-3">
-      <ul></ul>
+      <ul>
+        {% for timestamp, details in data.items() %}
+        <li>
+          <strong>{{ timestamp }}</strong>
+          <ul>
+            <li>Username: {{ details.username }}</li>
+            <li>Message: {{ details.message }}</li>
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
   </body>
 </html>

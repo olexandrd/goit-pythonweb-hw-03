@@ -4,6 +4,29 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import urllib.parse
 import json
 from datetime import datetime
+from jinja2 import Environment, FileSystemLoader
+import logging
+
+logging.basicConfig(
+    format="%(asctime)s %(message)s",
+    level=logging.INFO,
+    handlers=[logging.StreamHandler()],
+)
+
+
+class Template:
+    def __init__(self, template, data):
+        self.template = template
+        self.data = data
+
+    def refresh_data(self, data):
+        self.data = data
+
+    def render(self):
+        env = Environment(loader=FileSystemLoader("./templates/"))
+        template = env.get_template(self.template)
+        logging.info("Render template %s", self.template)
+        return template.render(data=self.data)
 
 
 class Storage:
@@ -37,6 +60,7 @@ class Storage:
 class HttpHandler(BaseHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         self.storage = Storage()
+        self.template = Template("info.html.jinja", self.storage.get_data())
         self.storage.load_data()
         super().__init__(*args, **kwargs)
 
@@ -56,8 +80,9 @@ class HttpHandler(BaseHTTPRequestHandler):
         pr_url = urllib.parse.urlparse(self.path)
         if pr_url.path == "/":
             self.send_html_file("index.html")
-        elif pr_url.path == "/read":
-            self.send_html_file("info.html")
+        elif pr_url.path == "/info":
+            self.template.refresh_data(self.storage.get_data())
+            self.render_template()
         elif pr_url.path == "/message":
             self.send_html_file("message.html")
         else:
@@ -72,6 +97,12 @@ class HttpHandler(BaseHTTPRequestHandler):
         self.end_headers()
         with open(filename, "rb") as fd:
             self.wfile.write(fd.read())
+
+    def render_template(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/html")
+        self.end_headers()
+        self.wfile.write(self.template.render().encode())
 
     def send_static(self):
         self.send_response(200)
