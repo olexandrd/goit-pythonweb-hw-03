@@ -1,0 +1,7 @@
+services:
+  web:
+    build: ./WebServer
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./WebServer/storage:/app/storage

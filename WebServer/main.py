@@ -120,6 +120,9 @@ def run(server_class=HTTPServer, handler_class=HttpHandler):
     server_address = ("", 8000)
     http = server_class(server_address, handler_class)
     try:
+        logging.info("Server started")
+        logging.info("Listening on %s", server_address)
+        logging.info("Press Ctrl+C to stop")
         http.serve_forever()
     except KeyboardInterrupt:
         http.server_close()

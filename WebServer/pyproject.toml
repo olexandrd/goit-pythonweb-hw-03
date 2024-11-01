@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "olexandrs-webserver"
+version = "0.1.0"
+description = "Webserver example with jinja"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Jinja2 = "^3.1.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
