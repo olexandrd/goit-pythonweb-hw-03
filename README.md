@@ -7,8 +7,9 @@
 Requests to `/` and `/message.html` endpoints returns crafted html pages.
 Requets to `/read` endpoint returns rendered template with information from data.json.
 
-### Runnig the server
+### Running the server
 
+Data for the server is stored in `storage/data.json` file. The file is mounted to the server container using a volume on docker-compose.
 For simplifying running the server, docker-compose is used. To run the server, execute the following command:
 
 ```bash
